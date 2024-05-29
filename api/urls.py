@@ -17,10 +17,14 @@ Including another URLconf
 from django.urls import re_path, include
 from rest_framework.routers import DefaultRouter
 
-from apps.contact.views import ContactViewSet
+from apps.contact.views import ContactViewSet, OutlookViewSet
 
 router = DefaultRouter()
+router.register(r'outlook', OutlookViewSet, basename='outlook')# localhost:8001/outlook/get_authorization_url
 router.register(r'contact', ContactViewSet, basename='contact')
+# outlook_router = router.NestedSimpleRouter(router, r'outlook', lookup='outlook')
+# outlook_router.register(r'outlook', OutlookViewSet, basename='outlook')
+
 
 urlpatterns = [
     re_path(r'^', include(router.urls)),
