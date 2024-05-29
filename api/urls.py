@@ -14,9 +14,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
+from django.urls import re_path, include
+from rest_framework.routers import DefaultRouter
+
+from apps.contact.views import ContactViewSet, OutlookViewSet
+
+router = DefaultRouter()
+router.register(r'outlook', OutlookViewSet, basename='outlook')# localhost:8001/outlook/get_authorization_url
+router.register(r'contact', ContactViewSet, basename='contact')
+# outlook_router = router.NestedSimpleRouter(router, r'outlook', lookup='outlook')
+# outlook_router.register(r'outlook', OutlookViewSet, basename='outlook')
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    re_path(r'^', include(router.urls)),
 ]
